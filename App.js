@@ -1,20 +1,25 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, Text, View, TextInput, Button, Image} from 'react-native';
+import SelectionView from "./components/SelectionView";
+import {apiEndpoint} from "./utils/models";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+export default function UserProfile() {
+
+    const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        fetch(apiEndpoint, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+        }).then(r => console.log('hi', r.toString()));
+    })
+
+    return (
+        <View>
+            <SelectionView></SelectionView>
+        </View>
+    );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
