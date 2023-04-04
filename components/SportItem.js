@@ -1,11 +1,11 @@
 import {Pressable, StyleSheet, Text, View} from "react-native";
 
 function SportItem(props) {
-    return <View style={props.selected ? styles.containerSelected : styles.container}>
-        <Pressable onPress={props.setSelected.bind(this, props.index)}>
+    return <Pressable onPress={props.setSelected}>
+        <View style={props.selected ? styles.containerSelected : styles.container}>
             <Text style={styles.text}>{props.text}</Text>
-        </Pressable>
-    </View>
+        </View>
+    </Pressable>
 }
 
 export default SportItem

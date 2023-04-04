@@ -2,6 +2,7 @@ import {Button, FlatList, StyleSheet, Text, View} from "react-native";
 import {apiEndpoint, SportModel} from "../utils/models";
 import SportItem from "./SportItem";
 import {useState} from "react";
+import MyText from "./common/MyText";
 
 function SelectionView() {
 
@@ -19,21 +20,23 @@ function SelectionView() {
         }).then(r => console.log('hi', r.toString()));
     }
 
-    const [selectedItems, setSelectedItems] = useState([]);
-    let data = Object.values(SportModel).map((item, index) => ({item, index}));
-    return <View style={styles.container}>
-        <Text style={styles.text}>Wählen Sie Ihre Sportarten aus</Text>
-        <View style={styles.listContainer}>
-            <FlatList data={data}
-                      renderItem={sportData => <SportItem
-                          index={sportData.item.index}
-                          setSelected={(index) => setSelectedItems((oldItem) => [...oldItem, index])}
-                          selected={selectedItems.includes(sportData.item.index)}
-                          text={sportData.item.item}/>}/>
-        </View>
+    let data = Object.values(SportModel).map((item, index) => ({item, index, selected: false}));
 
-        <View>
-            <Button onPress={submitUser} title={'weiter'}/>
+    const [items, setItems] = useState(data);
+
+    return <View style={styles.container}>
+        <MyText style={styles.text} text={'Wählen Sie Ihre sportlichen Aktivitäten aus'}/>
+        <View style={styles.listContainer}>
+            <FlatList data={items}
+                      renderItem={sportData => <SportItem
+                          setSelected={() => {
+                              setItems((currentItems) => [...currentItems.map(item => item.index === sportData.item.index ? {
+                                  ...item,
+                                  selected: !item.selected
+                              } : item)])
+                          }}
+                          selected={sportData.item.selected}
+                          text={sportData.item.item}/>}/>
         </View>
     </View>
 }
